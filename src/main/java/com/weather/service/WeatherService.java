@@ -2,6 +2,8 @@ package com.weather.service;
 
 import com.weather.pojo.WeatherResponse;
 
+import javax.lang.model.element.VariableElement;
+
 /**
  * @Author：lqq
  * @ClassName：WeatherService
@@ -23,4 +25,10 @@ public interface WeatherService {
      * @return
      */
     WeatherResponse getCityName(String cityName);
+
+    /**
+     * 根据城市id进行同步
+     * @param cityId
+     */
+    void syncByCityId(String cityId);
 }

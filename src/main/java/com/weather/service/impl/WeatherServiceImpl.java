@@ -68,4 +68,22 @@ public class WeatherServiceImpl implements WeatherService {
         }
         return v;
     }
+
+    @Override
+    public void syncByCityId(String cityId) {
+        String url = WEATHER_URL + "citykey=" + cityId;
+        this.saveWeatherData(url);
+    }
+
+    private void saveWeatherData(String url) {
+
+        String strBody = null;
+        ValueOperations<String, String> ssl = stringRedisTemplate.opsForValue();
+        //缓存没有，在调用服务接口来获取
+        ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
+        if (forEntity.getStatusCodeValue() == 200){
+            strBody = forEntity.getBody();
+        }
+        ssl.set(url,strBody,1800, TimeUnit.SECONDS);
+    }
 }
